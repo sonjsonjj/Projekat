@@ -1,18 +1,13 @@
 package Tests;
 
 import Base.BaseTest;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import Pages.PreviewPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 public class LoginTest extends BaseTest {
 
@@ -24,46 +19,70 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void loginWithValidCredentials() {
+        previewPage.clickOnLoginButton();
+        loginPage.inputEmail("sonja.kesic96@gmail.com");
+        loginPage.inputPassword("sifra123");
+        loginPage.clickSignInButton();
 
-
+        Assert.assertTrue(dashboardPage.getDashboardButton().isDisplayed(), "Dashboard button not displayed after login");
     }
-    public static void main(String[] args) {
 
-        // Setup WebDriver
-        WebDriverManager.chromedriver().driverVersion("132.0.6834.159").setup();  // Ensuring ChromeDriver version compatibility
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+    @Test
+    public void loginWithInvalidEmail() {
+        previewPage.clickOnLoginButton();
+        loginPage.inputEmail("invalid@gmail.com");
+        loginPage.inputPassword("sifra123");
+        loginPage.clickSignInButton();
 
-        // Open the website
-        driver.get("https://automaticityacademy.ngrok.app/");
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.text-sm.text-red-600")));
 
-        // Initialize WebDriverWait
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
-        // Wait for login button to be visible and click
-        WebElement loginButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loginBtn")));
-        loginButton.click();
-
-        // Wait for email and password fields to be visible
-        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
-        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password")));
-        WebElement signInButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[aria-label='Sign in']")));
-
-        // Enter credentials and submit the login form
-        emailField.sendKeys("sonjaaa.kesic96@gmail.com");
-        passwordField.sendKeys("sifra123");
-        signInButton.click();
-
-        // Wait for the page to navigate to the dashboard URL
-        wait.until(ExpectedConditions.urlToBe("https://automaticityacademy.ngrok.app/dashboard"));
-
-        // Assert the current URL after login
-        String currentUrl = driver.getCurrentUrl();
-
-        // Assert that the current URL matches the expected URL after login
-        Assert.assertEquals(currentUrl, "https://automaticityacademy.ngrok.app/dashboard");
-
-        // Close the driver after the test
-        driver.quit();
+        Assert.assertTrue(errorMessage.isDisplayed());
     }
+
+    @Test
+    public void loginWithInvalidPassword() {
+        previewPage.clickOnLoginButton();
+        loginPage.inputEmail("sonja.kesic96@gmail.com");
+        loginPage.inputPassword("invalid");
+        loginPage.clickSignInButton();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.text-sm.text-red-600")));
+
+        Assert.assertTrue(errorMessage.isDisplayed());
+    }
+
+    @Test
+    public void loginWithInvalidCredentials() {
+        previewPage.clickOnLoginButton();
+        loginPage.inputEmail("invalid@gmail.com");
+        loginPage.inputPassword("invalid");
+        loginPage.clickSignInButton();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.text-sm.text-red-600")));
+
+        Assert.assertTrue(errorMessage.isDisplayed());
+    }
+
+    @Test
+    public void loginWithoutEmail() {
+        previewPage.clickOnLoginButton();
+        loginPage.inputPassword("sifra123");
+        loginPage.clickSignInButton();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".text-sm.text-red-600")));
+
+        Assert.assertTrue(errorMessage.isDisplayed());
+    }
+
+    @Test
+    public void loginWithoutPassword() {
+        previewPage.clickOnLoginButton();
+        loginPage.inputEmail("sonja.kesic96@gmail.com");
+        loginPage.clickSignInButton();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".text-sm.text-red-600")));
+
+        Assert.assertTrue(errorMessage.isDisplayed());
+    }
+
 }

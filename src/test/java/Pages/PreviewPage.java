@@ -18,9 +18,17 @@ public class PreviewPage {
         return driver.findElement(By.id("loginBtn"));
     }
 
+    public WebElement getRegisterButton() {
+        return driver.findElement(By.linkText("Register"));
+    }
+
     //----------------------
 
     public void clickOnLoginButton() {
         getLoginButton().click();
+    }
+
+    public void clickOnRegisterButton() {
+        getRegisterButton().click();
     }
 }

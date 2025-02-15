@@ -14,7 +14,7 @@ public class PurchaseTest extends BaseTest {
     }
 
     @Test
-    public void purchaseItem() {
+    public void purchaseOneItem() {
         previewPage.clickOnLoginButton();
         loginPage.inputEmail("sonja.kesic96@gmail.com");
         loginPage.inputPassword("sifra123");

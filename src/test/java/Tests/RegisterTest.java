@@ -19,9 +19,9 @@ public class RegisterTest extends BaseTest {
     @Test
     public void registerWithValidCredentials() {
         previewPage.clickOnRegisterButton();
-        registerPage.inputUsername("sonjasaaaaa");
-        registerPage.inputEmail("sonjaas96@gmail.com");
-        registerPage.inputPassword("ssifra12345");
+        registerPage.inputUsername("sonjasaaaaaa");
+        registerPage.inputEmail("sonjaaas96@gmail.com");
+        registerPage.inputPassword("sssifra12345");
         registerPage.clickOnRegisterButton();
 
         wait.until(ExpectedConditions.urlToBe("https://automaticityacademy.ngrok.app/dashboard"));
@@ -47,7 +47,7 @@ public class RegisterTest extends BaseTest {
     public void registerWithInvalidPassword() {
         previewPage.clickOnRegisterButton();
         registerPage.inputUsername("so");
-        registerPage.inputEmail("sonja@gmail.com");
+        registerPage.inputEmail("sonjaa@gmail.com");
         registerPage.inputPassword("1");
         registerPage.clickOnRegisterButton();
 

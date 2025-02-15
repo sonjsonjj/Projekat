@@ -30,7 +30,7 @@ public class LoginTest extends BaseTest {
     @Test
     public void loginWithInvalidEmail() {
         previewPage.clickOnLoginButton();
-        loginPage.inputEmail("invalid@gmail.com");
+        loginPage.inputEmail("invalid");
         loginPage.inputPassword("sifra123");
         loginPage.clickSignInButton();
 
